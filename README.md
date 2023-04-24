@@ -15,7 +15,7 @@ _poolPoints = new PoolMono<PointTargetMovementPlayer>(_pointEffectPrefab, rootPo
 
 ```
 
-## Systax
+## Syntax:
 
 ``` C#
 
