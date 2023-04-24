@@ -13,6 +13,8 @@ GameObject rootPool = new GameObject("root_VFX_Points_Movement_Player");
 
 _poolPoints = new PoolMono<PointTargetMovementPlayer>(_pointEffectPrefab, rootPool.transform, _settings.CountPoolObjects, _settings.IsExpand);
 
+```
+
 ## Systax
 
 ``` C#
