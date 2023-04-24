@@ -21,6 +21,8 @@ _poolPoints = new PoolMono<PointTargetMovementPlayer>(_pointEffectPrefab, rootPo
 
 PoolMono<T> pool = new PoolMono<T>(prefab, rootTransform, countObjects, isExpand);
 
+```
+
 ## Where:
 
 prefab - The object that will be installed
