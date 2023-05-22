@@ -1,4 +1,4 @@
-# Pool Mono v1.0
+# Pool Mono v1.1
  ## Simple Pool System for Unity
  
 This is a simple pool object system for Unity:
