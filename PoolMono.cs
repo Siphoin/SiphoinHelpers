@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using System.Linq;
 
 namespace Siphoin.Pooling
 {
@@ -79,6 +79,40 @@ namespace Siphoin.Pooling
             CreatePool(count);
         }
 
+        public PoolMono(T prefab, IEnumerable<T> objects, bool autoExpand = false)
+        {
+
+            if (prefab is null)
+            {
+                throw new NullReferenceException("prefab on pool not be null");
+            }
+
+            Prefab = prefab;
+            
+            AutoExpand = autoExpand;
+
+            
+
+            CreatePool(objects);
+        }
+
+        public PoolMono(T prefab, IEnumerable<T> objects, Transform container, bool autoExpand = false)
+        {
+
+            if (prefab is null)
+            {
+                throw new NullReferenceException("prefab on pool not be null");
+            }
+
+            Prefab = prefab;
+            
+            AutoExpand = autoExpand;
+
+            Container = container;
+
+            CreatePool(objects);
+        }
+
         private void CreatePool(int count)
         {
             _pool = new List<T>();
@@ -89,13 +123,42 @@ namespace Siphoin.Pooling
             }
         }
 
+        private void CreatePool(IEnumerable<T> objects)
+        {
+
+            _pool = new List<T>();
+
+            var array = objects.ToArray();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                MonoBehaviour monoBehaviour = array[i] as MonoBehaviour;
+
+                GameObject gameObject = monoBehaviour.gameObject;
+
+                if (Container != null) 
+                {
+                    gameObject.transform.SetParent(Container);
+                }
+
+                gameObject.SetActive(false);
+                
+                _pool.Add(array[i]);
+            }
+        }
+
         private T CreateObject (bool isActiveByDefault = false)
         {
+        
             T createdObject = UnityEngine.Object.Instantiate(Prefab, Container);
 
             createdObject.gameObject.SetActive(isActiveByDefault);
 
             _pool.Add(createdObject);
+
+            string typeName = typeof(T).Name;
+
+            createdObject.gameObject.name = $"{typeName}{_pool.Count}";
 
             return createdObject;
         }
