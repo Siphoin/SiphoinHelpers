@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SiphoinUnityHelpers
 {
-    public class ScriptableObjectIdentity : ScriptableObject, Iidentity
+    public class ScriptableObjectIdentity : ScriptableObject
     {
         [SerializeField] private string _guid = Guid.NewGuid().ToString();
 
