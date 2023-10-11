@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace SiphoinUnityHelpers
 {
-    public static class AddressablesHelper
+    public static class AddressablesHelperUniTask
     {
         private static TimeSpan _timeoutUnloading;
 
