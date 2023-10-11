@@ -17,12 +17,5 @@ namespace SiphoinUnityHelpers.Extensions
             tweenerCore.SetTarget(target);
             return tweenerCore;
         }
-
-        public static TweenerCore<float, float, FloatOptions> DOValue(this ProgressBar target, float endValue, float duration, bool snapping = false)
-        {
-            TweenerCore<float, float, FloatOptions> t = DOTween.To(() => target.Value, x => target.Value = x, endValue, duration);
-            t.SetOptions(snapping).SetTarget(target);
-            return t;
-        }
     }
 }
