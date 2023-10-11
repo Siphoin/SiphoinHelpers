@@ -3,11 +3,11 @@ using RandomizableFields;
 using System;
 using UnityEngine;
 
-namespace AboveSnakes.GameDesign
+namespace SiphoinUnityHelpers
 {
     public class ScriptableObjectIdentity : ScriptableObject, Iidentity
     {
-        [SerializeField, RandomizableGuid] private string _guid = Guid.NewGuid().ToString();
+        [SerializeField] private string _guid = Guid.NewGuid().ToString();
 
         public string GUID => _guid;
     }
