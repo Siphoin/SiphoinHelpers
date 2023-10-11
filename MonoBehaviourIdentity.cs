@@ -1,4 +1,4 @@
-﻿using AboveSnakes.Attributes;
+﻿using SiphoinUnityHelpers.Attributes;
 using RandomizableFields;
 using System;
 #if UNITY_EDITOR
@@ -34,16 +34,15 @@ namespace SiphoinUnityHelpers
 
         private void OnValidate()
         {
-
             ValidateGUID();
         }
 
         public void ValidateGUID()
         {
 
-#pragma warning disable CS0618 // Тип или член устарел
+#pragma warning disable CS0618
             PrefabType prefabType = PrefabUtility.GetPrefabType(gameObject);
-#pragma warning restore CS0618 // Тип или член устарел
+#pragma warning restore CS0618
 
             if (Application.isPlaying)
             {

@@ -1,4 +1,4 @@
-﻿using AboveSnakes.Attributes;
+﻿using SiphoinUnityHelpers.Attributes;
 using UnityEditor;
 using UnityEngine;
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
@@ -25,7 +25,7 @@ public class ReadOnlyDrawer : PropertyDrawer
             default:
                 break;
         }
-        // Check if the property is a collection or list
+
         if (property.propertyType == SerializedPropertyType.ArraySize)
         {
             EditorGUI.LabelField(position, label.text, "Read Only Object Refrence");
