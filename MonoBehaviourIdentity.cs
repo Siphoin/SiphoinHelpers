@@ -5,8 +5,9 @@ using System;
 using UnityEditor;
 #endif
 using UnityEngine;
+using SiphoinUnityHelpers.Attributes;
 
-namespace AboveSnakes
+namespace SiphoinUnityHelpers
 {
     public class MonoBehaviourIdentity : MonoBehaviour
     {
