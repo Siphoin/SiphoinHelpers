@@ -28,7 +28,7 @@ public class ReadOnlyDrawer : PropertyDrawer
 
         if (property.propertyType == SerializedPropertyType.ArraySize)
         {
-            EditorGUI.LabelField(position, label.text, "Read Only Object Refrence");
+            EditorGUI.LabelField(position, label.text, "Read Only Object Reference");
         }
         else
         {
