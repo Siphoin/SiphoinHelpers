@@ -65,7 +65,7 @@ Linux Dedicated Server Support Molude
 
  # ddressables Helpers
 
- Find a assets on ddressables
+ Find a assets on Addressables
  ##
 If you not using DOTween on your Unity Project, delete DOTween extensions
 
