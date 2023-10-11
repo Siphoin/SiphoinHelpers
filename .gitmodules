@@ -4,6 +4,3 @@
 [submodule "xNode"]
 	path = xNode
 	url = https://github.com/Siccity/xNode.git
-[submodule "Unity-Scene-Field"]
-	path = Unity-Scene-Field
-	url = https://github.com/Trisibo/Unity-Scene-Field.git
