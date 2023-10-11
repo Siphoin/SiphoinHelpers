@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
-namespace AboveSnakes.Attributes
+
+namespace SiphoinUnityHelpers.Attributes
 {
     public class ReadOnlyAttribute : PropertyAttribute
     {
