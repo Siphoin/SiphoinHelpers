@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AboveSnakes.Extensions
+namespace iphoinUnityHelpers.Extensions
 {
     public static class Texture2DExtensions
     {
