@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-namespace SiphoinUnityHelpers
+namespace SiphoinUnityHelpers.Extensions
 {
     public static class GameObjectTypeHandler 
     {

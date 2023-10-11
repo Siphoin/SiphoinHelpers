@@ -33,3 +33,48 @@ countObjects - How many objects do I need to create when initializing the pool
 
 isExpand - Will the pool expand if all objects are occupied, but a new one is needed, if isExpand is false, then there will be an exception
 
+
+# Adaptive Builder for Unity Editor
+
+It is used for easier assembly of projects in the Unity environment, especially if you need to build as a Dedicated Server or as a Desktop Application.
+
+## Requirements
+
+Windows Dedicated Server Support Molude
+
+Linux Dedicated Server Support Molude
+
+
+# Handler Type GameObject
+
+## Handler for checking an object for its essence. It is a replacement for checking an object through a tag. Eliminates errors in which errors may occur when changing tags. Is an extension for GameObject
+
+
+``` C#
+
+using UnityEngine;
+using System;
+
+namespace Extensions.GO
+{
+    public static class GameObjectTypeHandler 
+    {
+         public static void HandleComponent<T>(this GameObject gameObject, Action<T> handler) 
+         {
+            var component = gameObject.GetComponent<T>();
+
+            if (component != null) 
+            {
+                handler?.Invoke(component);
+            }
+         }
+    }
+}
+```
+
+### Example
+
+``` C#
+   gameObject.HandleComponent<Enemy>(component) => component.Method(arguments);
+```
+
