@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-namespace Siphoin.Pooling
+namespace SiphoinUnityHelpers.Polling
 {
     /// <summary>
     /// Служит для пулла объектов MonoBehaviour
