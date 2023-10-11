@@ -58,3 +58,5 @@ Linux Dedicated Server Support Molude
    gameObject.HandleComponent<Enemy>(component) => component.Method(arguments);
 ```
 
+
+If you not using DOTween on your Unity Project, delete DOTween extensions
