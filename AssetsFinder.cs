@@ -33,9 +33,9 @@ namespace SiphoinUnityHelpers
 
             for (int i = 0; i < fileNames.Count; i++)
             {
-                T enemy = AssetDatabase.LoadAssetAtPath(fileNames[i], type) as T;
+                T asset = AssetDatabase.LoadAssetAtPath(fileNames[i], type) as T;
 
-                result.Add(enemy);
+                result.Add(asset);
             }
 
             return result;
