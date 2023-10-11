@@ -2,7 +2,6 @@
 
 This repository contains helpers for everyday work on Unity Enviroment or .NET
 
-# Pool Mono v1.1f
  ## Simple Pool System for Unity
  
 This is a simple pool object system for Unity:
