@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
-
-namespace Extensions.GO
+namespace SiphoinUnityHelpers
 {
     public static class GameObjectTypeHandler 
     {
