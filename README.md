@@ -63,7 +63,7 @@ Linux Dedicated Server Support Molude
  Find a assets on Unity Project
 
 
- # ddressables Helpers
+ # Addressables Helpers
 
  Find a assets on Addressables
  ##
