@@ -70,3 +70,5 @@ Linux Dedicated Server Support Molude
 If you not using DOTween on your Unity Project, delete DOTween extensions
 
 If you not using Addressables on your Unity Project, delete Addressables helpers
+
+If you not using Xnode on your Unity Project, delete folber XNode
