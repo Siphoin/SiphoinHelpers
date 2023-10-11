@@ -90,9 +90,7 @@ namespace Siphoin.Pooling
             Prefab = prefab;
             
             AutoExpand = autoExpand;
-
             
-
             CreatePool(objects);
         }
 
