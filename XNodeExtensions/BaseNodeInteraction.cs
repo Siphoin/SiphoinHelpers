@@ -6,13 +6,13 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 {
     public abstract class BaseNodeInteraction : BaseNode
     {
-        [SerializeField] private bool _enabled;
+        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private bool _enabled;
 
         public bool Enabled => _enabled;
 
         [Space]
 
-        [Input, SerializeField] private NodePort _enter;
+        [Input(ShowBackingValue.Never), SerializeField] private NodePort _enter;
 
         [Output, SerializeField] private NodePort _exit;
 
@@ -33,7 +33,12 @@ namespace SiphoinUnityHelpers.XNodeExtensions
         {
             base.OnCreateConnection(from, to);
 
-            SetEnable(from.Connection != null || to.Connection != null);
+            SetEnable(Exit.Connection != null || Enter.Connection != null);
+
+            if (Enter.Connection != null && Enter.Connection.node is NodeControlExecute)
+            {
+                SetEnable(false);
+            }
         }
 
         public override void OnRemoveConnection(NodePort port)

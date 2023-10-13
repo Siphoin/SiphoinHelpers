@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.GameObjects
 {
     public class NewGameObjectNode : BaseNodeInteraction
     {

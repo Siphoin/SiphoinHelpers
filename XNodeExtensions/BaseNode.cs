@@ -17,11 +17,16 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             throw new NotImplementedException($"Node {GetType().Name}");
         }
 
-        protected T GetDataFromPort<T> (string fieldName, NodePort nodePort = null)
+        protected T GetDataFromPort<T> (string fieldName)
         {
             var inputParentPort = GetInputPort(fieldName);
 
-            var value = inputParentPort.Connection.node.GetValue(nodePort);
+            if (inputParentPort.Connection is null)
+            {
+                return default(T);
+            }
+
+            var value = inputParentPort.Connection.GetOutputValue();
 
             if (value is null)
             {
@@ -29,6 +34,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             }
 
             return (T)value;
+
         }
     }
 }

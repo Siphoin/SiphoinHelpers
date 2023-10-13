@@ -2,11 +2,11 @@
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
-    public class ClearPlayerPrefsNode : BaseNodeInteraction
+    public class StartNode : BaseNodeInteraction
     {
         public override void Execute()
         {
-            PlayerPrefs.DeleteAll();
+            Debug.Log($"node queue from graph {graph.name} started");
         }
     }
 }

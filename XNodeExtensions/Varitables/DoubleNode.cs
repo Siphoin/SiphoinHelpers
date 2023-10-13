@@ -3,13 +3,7 @@ using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.Varitables
 {
-    public class DoubleNode : BaseNode
+    public class DoubleNode : VaritableNode<double>
     {
-        [SerializeField, Output(ShowBackingValue.Always)] private double _value;
-
-        public override object GetValue(NodePort port)
-        {
-            return _value;
-        }
     }
 }

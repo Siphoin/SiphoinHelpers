@@ -12,16 +12,21 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         private List<BaseNodeInteraction> _nodes;
 
+        private Dictionary<string, object> _varitables;
+
         public event Action OnEnd;
 
         public int Count => _nodes.Count;
 
 
-        public NodeQueue(IEnumerable<BaseNodeInteraction> nodes)
+        public NodeQueue(BaseGraph parentGraph, IEnumerable<BaseNodeInteraction> nodes)
         {
             _nodes = nodes.Where(x => x.Enabled).OrderBy(x => x.position.x).ToList();
 
+
             StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine($"New Node Queue from node graph {parentGraph.name}:\n");
 
             foreach (var node in _nodes)
             {

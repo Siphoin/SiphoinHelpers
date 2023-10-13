@@ -6,9 +6,9 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Math
 {
     public class ComputeNode : BaseNode
     {
-        [SerializeField, Input(ShowBackingValue.Never)] private Object _a;
+        [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override)] private Object _a;
 
-        [SerializeField, Input(ShowBackingValue.Never)] private Object _b;
+        [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override)] private Object _b;
 
         [SerializeField] private ComputeType _type;
 
@@ -19,15 +19,15 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Math
             var a = GetDataFromPort<object>(nameof(_a));
 
             var b = GetDataFromPort<object>(nameof(_b));
-            string operatorString = _type.ConvertToLanguageOperator();
 
-            string condition = $"{a} {operatorString} {b}";
+            if (a is null || b is null)
+            {
+                return "a or b on compute is null";
+            }
 
-            Debug.Log(condition);
+            return ComputeHelper.Compute(a, b, _type);
 
-            var dataTable = new DataTable();
 
-            return (bool)dataTable.Compute(condition, string.Empty);
 
         }
     }

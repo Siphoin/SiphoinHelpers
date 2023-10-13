@@ -1,17 +1,18 @@
-﻿using System;
+﻿using SiphoinUnityHelpers.Attributes;
+using System;
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
 {
     public class SetPlayerPrefsNode : BaseNodeInteraction
     {
-        [SerializeField] private string _key = Guid.NewGuid().ToString();
+        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _key = Guid.NewGuid().ToString();
 
-        [SerializeField] private string _value = "0";
+        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _value = "0";
 
-        [SerializeField] private FieldType _type;
+        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private FieldType _type;
 
         public object GetValue ()
         {

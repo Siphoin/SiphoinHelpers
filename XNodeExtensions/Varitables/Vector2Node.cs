@@ -3,13 +3,7 @@ using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.Varitables
 {
-    public class Vector2Node : BaseNode
+    public class Vector2Node : VaritableNode<Vector2>
     {
-        [SerializeField, Output(ShowBackingValue.Always)] private Vector2 _value;
-
-        public override object GetValue(NodePort port)
-        {
-            return _value;
-        }
     }
 }

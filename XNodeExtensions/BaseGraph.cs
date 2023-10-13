@@ -9,17 +9,22 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     {
         public NodeQueue GetQueue ()
         {
-            List<BaseNodeInteraction> queue = new List<BaseNodeInteraction>();
+            var queue = new List<BaseNodeInteraction>();
+
 
             for (int i = 0; nodes.Count > i; i++)
             {
-                if (nodes[i] is BaseNodeInteraction)
+                var node = nodes[i];
+
+                if (node is BaseNodeInteraction)
                 {
-                    queue.Add(nodes[i] as BaseNodeInteraction);
+                    queue.Add(node as BaseNodeInteraction);
                 }
             }
 
-            return new NodeQueue(queue);
+            return new NodeQueue(this, queue);
         }
+
+
     }
 }

@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using UnityEngine;
-using XNode;
+﻿using UnityEngine;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
-    public class ForNode : BaseNodeInteraction
+    public class ForNode : NodeControlExecute
     {
         [SerializeField, Min(2)] private int _n = 2;
 
