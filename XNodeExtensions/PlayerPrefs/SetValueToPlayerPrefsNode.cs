@@ -6,11 +6,13 @@ using UnityEngine;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
 {
-    public class SetPlayerPrefsNode : BaseNodeInteraction
+    [NodeTint("#3d6b47")]
+    [CreateNodeMenu("Siphoin Unity Helpers/X Node Extensions/PlayerPrefs/Set Value")]
+    public class SetValueToPlayerPrefsNode : BaseNodeInteraction
     {
-        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _key = Guid.NewGuid().ToString();
+        [Input, SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _key = Guid.NewGuid().ToString();
 
-        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _value = "0";
+        [Input, SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _value = "0";
 
         [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private FieldType _type;
 
@@ -46,6 +48,24 @@ namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
 
         public override void Execute()
         {
+            var currentValue = _value;
+
+            var currentKey = _key;
+
+            var valueInput = GetDataFromPort<string>(nameof(_value));
+
+            if (valueInput != null)
+            {
+                currentValue = valueInput;
+            }
+
+            var keyInput = GetDataFromPort<string>(nameof(_value));
+
+            if (keyInput != null)
+            {
+                currentKey = keyInput;
+            }
+
             if (string.IsNullOrEmpty(_key))
             {
                 throw new InvalidOperationException($"key invalid on node {GUID}");
@@ -58,44 +78,44 @@ namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
 
             if (_type == FieldType.Int || _type == FieldType.UInt)
             {
-                PlayerPrefs.SetInt(_key, (int)GetValue());
+                PlayerPrefs.SetInt(currentKey, (int)GetValue());
             }
 
             else if (_type == FieldType.Long || _type == FieldType.ULong)
             {
-                PlayerPrefs.SetInt(_key, Convert.ToInt32(_value));
+                PlayerPrefs.SetInt(currentKey, Convert.ToInt32(_value));
             }
             else if (_type == FieldType.Float)
             {
-                PlayerPrefs.SetFloat(_key, (float)GetValue());
+                PlayerPrefs.SetFloat(currentKey, (float)GetValue());
             }
 
             else if (_type == FieldType.Double)
             {
-                PlayerPrefs.SetFloat(_key, (float)GetValue());
+                PlayerPrefs.SetFloat(currentKey, (float)GetValue());
             }
 
             else if (_type == FieldType.String)
             {
-                PlayerPrefs.SetString(_key, _value);
+                PlayerPrefs.SetString(currentKey, currentValue);
             }
 
 
             else if (_type == FieldType.BigInt)
             {
-                PlayerPrefs.SetString(_key, _value);
+                PlayerPrefs.SetString(currentKey, currentValue);
             }
 
             else if (_type == FieldType.DateTime)
             {
-                PlayerPrefs.SetString(_key, _value);
+                PlayerPrefs.SetString(currentKey, currentValue);
             }
 
             else if (_type == FieldType.Bool)
             {
                 bool value = (bool)GetValue();
 
-                PlayerPrefs.SetInt(_key, Convert.ToInt32(value));
+                PlayerPrefs.SetInt(currentKey, Convert.ToInt32(value));
             }
 
 

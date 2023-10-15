@@ -1,4 +1,5 @@
 ﻿using SiphoinUnityHelpers.Attributes;
+using SiphoinUnityHelpers.XNodeExtensions.Attributes;
 using UnityEngine;
 using XNode;
 
@@ -6,7 +7,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 {
     public abstract class BaseNodeInteraction : BaseNode
     {
-        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private bool _enabled;
+        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor), NodeControlExecuteField] private bool _enabled;
 
         public bool Enabled => _enabled;
 

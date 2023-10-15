@@ -1,14 +1,18 @@
 ﻿using SiphoinUnityHelpers.Attributes;
 using System;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using XNode;
+#if UNITY_EDITOR
+using XNodeEditor;
+#endif
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
+    [NodeTint("#3b3b3b")]
+    [NodeWidth(230)]
     public abstract class BaseNode : Node
     {
-        [SerializeField, ReadOnly] private string _guid = Guid.NewGuid().ToString();
+        [SerializeField, ReadOnly] private string _guid = Guid.NewGuid().ToString("N").Substring(0, 15);
 
         public string GUID => _guid;
 
@@ -19,22 +23,34 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         protected T GetDataFromPort<T> (string fieldName)
         {
+            return (T)GetDataFromPort(fieldName, typeof(T));
+
+        }
+
+        protected object GetDataFromPort(string fieldName, Type type)
+        {
             var inputParentPort = GetInputPort(fieldName);
 
             if (inputParentPort.Connection is null)
             {
-                return default(T);
+                return null;
             }
 
             var value = inputParentPort.Connection.GetOutputValue();
 
             if (value is null)
             {
-                value = default(T);
+                value = null;
             }
 
-            return (T)value;
+            return Convert.ChangeType(value, type);
 
         }
+#if UNITY_EDITOR
+        protected string GetDefaultName()
+        {
+            return NodeEditorUtilities.NodeDefaultName(GetType());
+        }
+#endif
     }
 }

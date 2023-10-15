@@ -14,12 +14,26 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     {
         [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _name;
 
-        public string Name { get => _name; set => _name = value; }
+        [Space(25)]
 
-        public virtual object GetStartValue ()
+        [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private Color32 _color = UnityEngine.Color.white;
+
+        public string Name { get => _name; set => _name = value; }
+        public Color32 Color { get => _color; set => _color = value; }
+
+        public abstract object GetStartValue();
+
+#if UNITY_EDITOR
+        protected virtual void OnValidate()
         {
-            throw new NotImplementedException();
+            ValidateName();
         }
+
+        private void ValidateName()
+        {
+            name = Color.ToColorTag($"{Name} ({GetDefaultName()})");
+        }
+#endif
 
     }
 
@@ -27,12 +41,9 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     {
        private T _startValue;
 
+        [Space(10)]
+
         [SerializeField, Output(ShowBackingValue.Always), ReadOnly(ReadOnlyMode.OnEditor)] private T _value;
-
-        [Space(40)]
-
-        [SerializeField] private Color _color = Color.white;
-
         public override object GetStartValue()
         {
            return _startValue;
@@ -43,35 +54,41 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             return _value;
         }
 
+
         public void SetValue (T value)
         {
             _value = value;
         }
 
-        private void OnValidate()
+
+        private void Awake()
         {
-            ValidateName();
+            Name = $"{GetDefaultName()} Varitable";
+        }
+#if UNITY_EDITOR
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            Validate();
         }
 
-        private void ValidateName()
+        private void Validate()
         {
             if (!Application.isPlaying)
             {
                 if (string.IsNullOrEmpty(Name))
                 {
-                    var nodesOnGraph = graph.nodes.Count(x => x.GetType() == GetType());
-
-                    Name = $"{_value.GetType().Name} ({nodesOnGraph})";
+                    Name = $"{GetDefaultName()} Varitable";
                 }
                 _startValue = _value;
-
-                name = _color.ToColorTag($"{Name} ({_value.GetType().Name})");
             }
         }
-#if UNITY_EDITOR
         protected new void OnEnable()
         {
             base.OnEnable();
+
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
 
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;

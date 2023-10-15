@@ -2,6 +2,8 @@
 using UnityEngine;
 namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
 {
+    [NodeTint("#3d6b47")]
+    [CreateNodeMenu("Siphoin Unity Helpers/X Node Extensions/PlayerPrefs/Delete Key")]
     public class DeleteKeyFromPlayerPrefsNode : BaseNodeInteraction
     {
         [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _key;

@@ -4,6 +4,7 @@ using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.Math
 {
+    [NodeTint("#3d6b6b")]
     public class ComputeNode : BaseNode
     {
         [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override)] private Object _a;

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
+    [NodeTint("#3b3b3b")]
     public class DebugNode : BaseNodeInteraction
     {
         [Space]
