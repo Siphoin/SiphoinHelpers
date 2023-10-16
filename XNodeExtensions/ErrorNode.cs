@@ -1,4 +1,5 @@
 ﻿using SiphoinUnityHelpers.Exceptions;
+using SiphoinUnityHelpers.XNodeExtensions.Attributes;
 using UnityEngine;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
@@ -6,9 +7,11 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     [NodeTint("#992f2f")]
     public class ErrorNode : BaseNodeInteraction
     {
-        [Input(ShowBackingValue.Never), SerializeField] private NodeException _exception;
+        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private NodeException _exception;
 
-        [Input, SerializeField] private string _message;
+        [Input, SerializeField, ErrorNodeField] private string _message;
+
+        
 
         public override void Execute()
         {

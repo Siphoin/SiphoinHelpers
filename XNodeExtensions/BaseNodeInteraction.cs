@@ -11,8 +11,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         public bool Enabled => _enabled;
 
-        [Space]
-
         [Input(ShowBackingValue.Never), SerializeField] private NodePort _enter;
 
         [Output, SerializeField] private NodePort _exit;

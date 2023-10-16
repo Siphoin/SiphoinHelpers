@@ -1,6 +1,7 @@
 ﻿using XNode;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
@@ -23,6 +24,19 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             }
 
             return new NodeQueue(this, queue);
+        }
+
+        public BaseNode GetNodeByGuid (string guid)
+        {
+            foreach (var node in from item in nodes
+                                 let node = item as BaseNode
+                                 where node.GUID == guid
+                                 select node)
+            {
+                return node;
+            }
+
+            return null;
         }
 
 

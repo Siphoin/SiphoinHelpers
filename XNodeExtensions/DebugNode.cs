@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SiphoinUnityHelpers.XNodeExtensions.Attributes;
+using UnityEngine;
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
     [NodeTint("#3b3b3b")]
@@ -6,7 +7,9 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     {
         [Space]
 
-        [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override)] private UnityEngine.Object _message;
+        [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override)] private Object _targetLog;
+
+        [SerializeField, DebugNodeField, Input(connectionType = ConnectionType.Override)] private string _message;
 
         [Space]
 
@@ -14,7 +17,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         public override void Execute()
         {
-            var value = GetDataFromPort<object>(nameof(_message));
+            object value = GetObjectForLog();
 
             switch (_logType)
             {
@@ -30,6 +33,27 @@ namespace SiphoinUnityHelpers.XNodeExtensions
                 default:
                     break;
             }
+        }
+
+        private object GetObjectForLog ()
+        {
+            object inputMessage = GetDataFromPort<string>(nameof(_message));
+
+            var objectTarget = GetDataFromPort<object>(nameof(_targetLog));
+
+            if (objectTarget != null)
+            {
+                return objectTarget;
+            }
+
+            if (inputMessage != null)
+            {
+                return inputMessage;
+            }
+
+            return null;
+
+
         }
     }
 }

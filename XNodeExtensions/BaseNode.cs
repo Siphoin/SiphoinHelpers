@@ -1,5 +1,7 @@
 ﻿using SiphoinUnityHelpers.Attributes;
+using SiphoinUnityHelpers.XNodeExtensions.Attributes;
 using System;
+using System.Collections;
 using UnityEngine;
 using XNode;
 #if UNITY_EDITOR
@@ -12,7 +14,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     [NodeWidth(230)]
     public abstract class BaseNode : Node
     {
-        [SerializeField, ReadOnly] private string _guid = Guid.NewGuid().ToString("N").Substring(0, 15);
+        [SerializeField, NodeGuid] private string _guid = Guid.NewGuid().ToString("N").Substring(0, 15);
 
         public string GUID => _guid;
 
@@ -40,10 +42,15 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             if (value is null)
             {
-                value = null;
+                return null;
             }
 
-            return Convert.ChangeType(value, type);
+            if (type == typeof(IEnumerable))
+            {
+                return value as IEnumerable;
+            }
+
+                return Convert.ChangeType(value, type);
 
         }
 #if UNITY_EDITOR

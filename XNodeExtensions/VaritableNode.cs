@@ -3,7 +3,8 @@ using System;
 using XNode;
 using SiphoinUnityHelpers.Attributes;
 using SiphoinUnityHelpers.Extensions;
-using System.Linq;
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -21,7 +22,25 @@ namespace SiphoinUnityHelpers.XNodeExtensions
         public string Name { get => _name; set => _name = value; }
         public Color32 Color { get => _color; set => _color = value; }
 
+        private void Awake()
+        {
+            Name = $"{GetDefaultName()} Varitable";
+        }
+
         public abstract object GetStartValue();
+
+        public abstract void ResetValue();
+
+        protected virtual void Validate()
+        {
+            if (!Application.isPlaying)
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    Name = $"{GetDefaultName()} Varitable";
+                }
+            }
+        }
 
 #if UNITY_EDITOR
         protected virtual void OnValidate()
@@ -29,9 +48,27 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             ValidateName();
         }
 
-        private void ValidateName()
+        protected virtual void ValidateName()
         {
             name = Color.ToColorTag($"{Name} ({GetDefaultName()})");
+        }
+
+        protected virtual new void OnEnable()
+        {
+            base.OnEnable();
+
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        }
+        private void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingPlayMode)
+            {
+                EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+
+                ResetValue();
+            }
         }
 #endif
 
@@ -39,9 +76,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
     public abstract class VaritableNode<T> : VaritableNode
     {
-       private T _startValue;
-
-        [Space(10)]
+        private T _startValue;
 
         [SerializeField, Output(ShowBackingValue.Always), ReadOnly(ReadOnlyMode.OnEditor)] private T _value;
         public override object GetStartValue()
@@ -60,11 +95,11 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             _value = value;
         }
 
-
-        private void Awake()
+        public override void ResetValue()
         {
-            Name = $"{GetDefaultName()} Varitable";
+            _value = _startValue;
         }
+
 #if UNITY_EDITOR
 
         protected override void OnValidate()
@@ -74,37 +109,22 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             Validate();
         }
 
-        private void Validate()
+        protected override void Validate()
         {
+            base.Validate();
+
             if (!Application.isPlaying)
             {
-                if (string.IsNullOrEmpty(Name))
-                {
-                    Name = $"{GetDefaultName()} Varitable";
-                }
                 _startValue = _value;
             }
         }
-        protected new void OnEnable()
-        {
-            base.OnEnable();
 
-            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-        }
-        private void OnPlayModeStateChanged(PlayModeStateChange state)
-        {
-            if (state == PlayModeStateChange.ExitingPlayMode)
-            {
-                EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-
-                _value = _startValue;
-            }
-        }
+        
 #endif
 
     }
+
+
 
 
 }
