@@ -12,6 +12,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Random
 
 
         [Output, SerializeField] private T _result;
+
         public override object GetValue(NodePort port)
         {
             if (!Application.isPlaying)
@@ -19,9 +20,9 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Random
                 return base.GetValue(port);
             }
 
-            float min = float.Parse(_min.ToString());
+            T min = Parse(_min.ToString());
 
-            float max = float.Parse(_max.ToString());
+            T max = Parse(_max.ToString());
 
             var inputMin = GetInputPort(nameof(_min));
 
@@ -29,15 +30,19 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Random
 
             if (inputMin.Connection != null)
             {
-                max = float.Parse(GetDataFromPort<T>(nameof(_min)).ToString());
+                max = Parse(GetDataFromPort<T>(nameof(_min)).ToString());
             }
 
             if (inputMax.Connection != null)
             {
-                max = float.Parse(GetDataFromPort<T>(nameof(_max)).ToString());
+                max = Parse(GetDataFromPort<T>(nameof(_max)).ToString());
             }
 
-            return UnityEngine.Random.Range(min, max);
+            return Range(min, max);
         }
+
+        protected abstract T Parse(string data);
+
+        protected abstract T Range(T min, T max);
     }
 }
