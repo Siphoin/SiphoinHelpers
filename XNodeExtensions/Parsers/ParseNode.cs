@@ -1,18 +1,19 @@
-﻿using SiphoinUnityHelpers.XNodeExtensions;
+﻿using System;
 using UnityEngine;
 
-namespace SiphoinUnityHelpers.Parsers
+namespace SiphoinUnityHelpers.XNodeExtensions.Parsers
 {
-    public abstract class ParseNode<TOutput> : BaseNode
+    public abstract class ParseNode<TInput, TOutput> : BaseNode
     {
-        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private Object _object;
+        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private TInput _input;
 
         [Output(ShowBackingValue.Never), SerializeField] private TOutput _output;
 
         protected object GetInputObject ()
         {
+            Type type = GetInputPort(nameof(_input)).Connection.ValueType;
 
-            return GetInputValue<object>(nameof(_object));
+            return GetDataFromPort(nameof(_input), type);
         }
     }
 }

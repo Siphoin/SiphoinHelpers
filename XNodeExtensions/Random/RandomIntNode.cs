@@ -1,23 +1,7 @@
-﻿using UnityEngine;
-using XNode;
-
-namespace SiphoinUnityHelpers.XNodeExtensions.Random
+﻿namespace SiphoinUnityHelpers.XNodeExtensions.Random
 {
     [NodeTint("#6b3d5c")]
-    public class RandomIntNode : BaseNode
+    public class RandomIntNode : RandomRangeNode<int>
     {
-
-        [Input(ShowBackingValue.Always), SerializeField] private int _min;
-        [Input(ShowBackingValue.Always), SerializeField] private int _max;
-
-        [Output, SerializeField] private NodePort _result;
-
-
-        public override object GetValue(NodePort port)
-        {
-            return UnityEngine.Random.Range(_min, _max + 1);
-        }
-
-
     }
 }

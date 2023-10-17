@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Numerics;
+using UnityEngine;
 using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.Parsers
 {
-    public class ToStringNode : ParseNode<Object, string>
+    public class ParseBigIntegerNode : ParseNode<string, BigInteger>
     {
         public override object GetValue(NodePort port)
         {
@@ -11,7 +12,9 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Parsers
             {
                 return base.GetValue(port);
             }
-          return GetInputObject().ToString();
+            string input = GetInputObject() as string;
+
+            return BigInteger.Parse(input);
         }
     }
 }

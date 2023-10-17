@@ -3,7 +3,7 @@ using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.Parsers
 {
-    public class ToStringNode : ParseNode<Object, string>
+    public class ParseIntNode : ParseNode<string, int>
     {
         public override object GetValue(NodePort port)
         {
@@ -11,7 +11,10 @@ namespace SiphoinUnityHelpers.XNodeExtensions.Parsers
             {
                 return base.GetValue(port);
             }
-          return GetInputObject().ToString();
+
+            string input = GetInputObject() as string;
+
+            return int.Parse(input);
         }
     }
 }

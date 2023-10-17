@@ -10,7 +10,5 @@
         Long,
         ULong,
         Bool,
-        BigInt,
-        DateTime,
     }
 }

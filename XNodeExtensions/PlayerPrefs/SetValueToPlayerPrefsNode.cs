@@ -36,10 +36,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
                     return Convert.ToUInt64(_value);
                     case FieldType.Bool: 
                     return Convert.ToBoolean(_value);
-                    case FieldType.BigInt:
-                    return BigInteger.Parse(_value);
-                    case FieldType.DateTime: 
-                    return DateTime.Parse(_value);
                     default:
                     return new InvalidCastException($"invalid field type {_type} on node {GUID}");
 
@@ -96,17 +92,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
             }
 
             else if (_type == FieldType.String)
-            {
-                PlayerPrefs.SetString(currentKey, currentValue);
-            }
-
-
-            else if (_type == FieldType.BigInt)
-            {
-                PlayerPrefs.SetString(currentKey, currentValue);
-            }
-
-            else if (_type == FieldType.DateTime)
             {
                 PlayerPrefs.SetString(currentKey, currentValue);
             }

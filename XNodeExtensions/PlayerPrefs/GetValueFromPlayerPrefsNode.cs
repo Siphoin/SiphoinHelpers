@@ -56,10 +56,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
                     return Convert.ToInt64(PlayerPrefs.GetString(currentKey));
                 case FieldType.Bool:
                     return Convert.ToBoolean(PlayerPrefs.GetInt(currentKey));
-                case FieldType.BigInt:
-                    return BigInteger.Parse(PlayerPrefs.GetString(currentKey));
-                case FieldType.DateTime:
-                    return DateTime.Parse(PlayerPrefs.GetString(currentKey));
                 default:
                     break;
             }
