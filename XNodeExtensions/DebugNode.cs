@@ -37,20 +37,31 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         private object GetObjectForLog ()
         {
-            object inputMessage = GetInputValue<string>(nameof(_message));
+            string message = _message;
 
-            var objectTarget = GetInputValue<object>(nameof(_targetLog));
+            object targetLog = _targetLog;
 
-            if (objectTarget != null)
+            var inputMessagePort = GetInputPort(nameof(_message));
+
+            var objectTargetPort = GetInputPort(nameof(_targetLog));
+
+            if (objectTargetPort.Connection != null)
             {
-                return objectTarget;
+                targetLog = GetInputValue<object>(nameof(_targetLog));
+
+                return targetLog;
             }
 
-            if (inputMessage != null)
+            if (inputMessagePort.Connection != null)
             {
-                return inputMessage;
-            }
+                message = GetInputValue<string>(nameof(_message));
 
+                return message;
+            }
+            if (!string.IsNullOrEmpty(message))
+            {
+                return message;
+            }
             return null;
 
 

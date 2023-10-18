@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.GameObjects
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects
 {
     public class DontDestroyOnLoadNode : BaseNodeInteraction
     {

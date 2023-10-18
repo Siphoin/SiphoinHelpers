@@ -18,6 +18,11 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         public string GUID => _guid;
 
+        protected virtual void Awake()
+        {
+            _guid = Guid.NewGuid().ToString("N").Substring(0, 15);
+        }
+
         public virtual void Execute ()
         {
             throw new NotImplementedException($"Node {GetType().Name}");

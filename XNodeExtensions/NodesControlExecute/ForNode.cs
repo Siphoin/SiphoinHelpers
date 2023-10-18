@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 {
     public class ForNode : NodeControlExecute
     {
@@ -21,7 +21,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             {
                 n = (int)nPort.Connection.GetOutputValue();
             }
-            for (_i = 0; _i < n + 1; _i++)
+            for (_i = 0; _i < n; _i++)
             {
                 foreach (var item in GetExitPort().GetConnections())
                 {

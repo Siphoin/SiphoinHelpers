@@ -1,7 +1,7 @@
 ﻿using SiphoinUnityHelpers.Attributes;
 using UnityEngine;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 {
     [NodeTint("#4b3359")]
     public class GroupCallsNode : NodeControlExecute
@@ -9,6 +9,8 @@ namespace SiphoinUnityHelpers.XNodeExtensions
         [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _name;
         public override void Execute()
         {
+            Debug.Log($"Group Calls {_name} started");
+
                 foreach (var item in GetExitPort().GetConnections())
                 {
                     ExecuteNodesFromPort(item);

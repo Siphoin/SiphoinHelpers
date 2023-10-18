@@ -2,7 +2,7 @@
 using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.Prefabs
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.Prefabs
 {
     public class InstantiatePrefabNode : BaseNodeInteraction
     {

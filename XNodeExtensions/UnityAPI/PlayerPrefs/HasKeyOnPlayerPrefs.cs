@@ -2,7 +2,7 @@
 using UnityEngine;
 using SiphoinUnityHelpers.Attributes;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.PlayerPrefsSystem
 {
     [NodeTint("#3d6b47")]
     [CreateNodeMenu("Siphoin Unity Helpers/X Node Extensions/PlayerPrefs/Has Key")]

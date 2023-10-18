@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System;
 using XNode;
 using SiphoinUnityHelpers.Attributes;
 using SiphoinUnityHelpers.Extensions;
-using Newtonsoft.Json.Linq;
-using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -22,10 +19,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
         public string Name { get => _name; set => _name = value; }
         public Color32 Color { get => _color; set => _color = value; }
 
-        private void Awake()
-        {
-            Name = $"{GetDefaultName()} Varitable";
-        }
+
 
         public abstract object GetStartValue();
 

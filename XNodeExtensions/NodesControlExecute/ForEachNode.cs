@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 {
     public class ForEachNode : NodeControlExecute
     {

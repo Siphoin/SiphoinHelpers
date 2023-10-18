@@ -12,11 +12,11 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 {
     public abstract class VaritableCollectionNode<T> : VaritableNode
     {
-        private T[] _startValue;
+        private List<T> _startValue;
 
         [Space(10)]
 
-        [SerializeField, Output(ShowBackingValue.Always, dynamicPortList = true), ReadOnly(ReadOnlyMode.OnEditor)] private T[] _elements;
+        [SerializeField, Output(ShowBackingValue.Always, dynamicPortList = true), ReadOnly(ReadOnlyMode.OnEditor)] private List<T> _elements;
 
         [Space(10)]
 
@@ -37,14 +37,14 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             else
             {
-                return (IEnumerable<T>)_elements;
+                return _elements.AsEnumerable();
             }
         }
 
 
         public void SetValue(IEnumerable<T> value)
         {
-            _elements = value.ToArray();
+            _elements = value.ToList();
         }
 
         public void SetValue(int index, T value)
@@ -56,7 +56,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         public override void ResetValue()
         {
-            _elements = _startValue;
+            _elements = _startValue.ToList();
         }
 #if UNITY_EDITOR
 
@@ -73,7 +73,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             if (!Application.isPlaying)
             {
-                _startValue = _elements.ToArray();
+                _startValue = _elements.ToList();
             }
         }
 

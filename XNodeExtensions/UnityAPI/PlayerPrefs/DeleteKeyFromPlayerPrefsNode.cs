@@ -1,6 +1,6 @@
 ﻿using SiphoinUnityHelpers.Attributes;
 using UnityEngine;
-namespace SiphoinUnityHelpers.XNodeExtensions.PlayerPrefsSystem
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.PlayerPrefsSystem
 {
     [NodeTint("#3d6b47")]
     [CreateNodeMenu("Siphoin Unity Helpers/X Node Extensions/PlayerPrefs/Delete Key")]

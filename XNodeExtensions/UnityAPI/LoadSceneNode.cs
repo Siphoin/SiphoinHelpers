@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI
 {
     public class LoadSceneNode : BaseNodeInteraction
     {

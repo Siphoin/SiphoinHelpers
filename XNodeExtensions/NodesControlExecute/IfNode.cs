@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions
+namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 {
     public class IfNode : NodeControlExecute
     {

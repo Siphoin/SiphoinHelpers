@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.UnityApplication
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.UnityApplication
 {
     [CreateNodeMenu("Siphoin Unity Helpers/X Node Extensions/Application/Quit")]
     public class ApplicationQuitNode : BaseNodeInteraction
