@@ -10,6 +10,8 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.Prefabs
 
         [SerializeField, Input(ShowBackingValue.Never, ConnectionType.Override)] private GameObject _parent;
 
+        [SerializeField, Output(ShowBackingValue.Never)] private GameObject _output;
+
         private GameObject _result;
 
         public override void Execute()
