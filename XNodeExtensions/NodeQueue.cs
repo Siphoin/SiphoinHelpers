@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using SiphoinUnityHelpers.XNodeExtensions.AsyncNodes;
+using SiphoinUnityHelpers.XNodeExtensions.Exceptions;
+using SiphoinUnityHelpers.XNodeExtensions.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,23 +14,118 @@ namespace SiphoinUnityHelpers.XNodeExtensions
     {
         private int _index;
 
-        private List<BaseNodeInteraction> _nodes;
-
-        private Dictionary<string, object> _varitables;
+        private StartNode _startNode;
 
         public event Action OnEnd;
 
+        private List<BaseNodeInteraction> _nodes;
+
+        private List<AsyncNode> _asyncNodes;
+
+        private List<ExitNode> _exitNodes;
+
+        private BaseGraph _graph;
+
         public int Count => _nodes.Count;
+
+        public BaseNode Current => _nodes[_index];
+
+        public bool IsEnding => _index == Count;
 
 
         public NodeQueue(BaseGraph parentGraph, IEnumerable<BaseNodeInteraction> nodes)
         {
-            _nodes = nodes.Where(x => x.Enabled).OrderBy(x => x.position.x).ToList();
+            if (parentGraph is null)
+            {
+                throw new ArgumentNullException("parent graph is null");
+            }
 
+            if (nodes is null)
+            {
+                throw new ArgumentNullException("nodes is null");
+            }
+
+            _nodes = new List<BaseNodeInteraction>();
+
+            _asyncNodes = new List<AsyncNode>();
+
+            _exitNodes = new List<ExitNode>();
+
+            _graph = parentGraph;
+
+            RequireNodes(nodes);
+
+            Build(nodes);
+        }
+
+        private void RequireNodes(IEnumerable<BaseNodeInteraction> nodes)
+        {
+            Func<BaseNodeInteraction, bool> predicateFindStartNode = x => x is StartNode;
+
+            Func<BaseNodeInteraction, bool> predicateFindExitNode = x => x is ExitNode;
+
+            if (nodes.Count(predicateFindExitNode) == 0)
+            {
+                throw new NodeQueueException($"graph {_graph.name} not have Exit Nodes!");
+            }
+
+            if (nodes.Count(predicateFindStartNode) > 1)
+            {
+                throw new NodeQueueException($"graph {_graph.name} has more 1 Start Node!");
+            }
+            try
+            {
+                _startNode = nodes.Single(predicateFindStartNode) as StartNode;
+            }
+            catch
+            {
+                throw new NodeQueueException($"Start Node not found on graph {_graph.name}");
+            }
+        }
+
+        private void Build(IEnumerable<BaseNodeInteraction> nodes)
+        {
+            foreach (var item in nodes)
+            {
+                if (item is AsyncNode)
+                {
+                    _asyncNodes.Add(item as AsyncNode);
+                }
+
+                if (item is ExitNode)
+                {
+                    ExitNode exitNode = item as ExitNode;
+
+                    _exitNodes.Add(item as ExitNode);
+
+                    exitNode.OnExit += OnExit;
+
+                }
+            }
+            _nodes.Add(_startNode);
+
+            foreach (var item in nodes)
+            {
+                if (item.Enabled)
+                {
+                    var exitPort = item.GetExitPort();
+
+                    if (exitPort.Connection != null)
+                    {
+                        var nextNodeBeforeItem = exitPort.Connection.node as BaseNodeInteraction;
+
+                        if (nextNodeBeforeItem.Enabled)
+                        {
+                            _nodes.Add(nextNodeBeforeItem);
+                        }
+                    }
+                    
+                }
+            }
 
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine($"New Node Queue from node graph {parentGraph.name}:\n");
+            stringBuilder.AppendLine($"New Node Queue from node graph {_graph.name}:\n");
 
             foreach (var node in _nodes)
             {
@@ -36,7 +135,25 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             Debug.Log(stringBuilder.ToString());
         }
 
-        public BaseNode Next ()
+        private void OnExit(object sender, EventArgs e)
+        {
+            var node = sender as ExitNode;
+
+            node.OnExit -= OnExit;
+
+            Exit();
+        }
+
+        private void Exit()
+        {
+            StopAsyncNodes();
+
+            Debug.Log($"node queue from graph {_graph.name} finished");
+
+            OnEnd?.Invoke();
+        }
+
+        public async UniTask<BaseNode> Next ()
         {
             int currentIndex = _index;
 
@@ -44,19 +161,34 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             node.Execute();
 
-            if (node.Outputs.Count() > 0)
+            if (node is AsyncNode)
             {
-                _index++;
+                var asyncNode = node as AsyncNode;
+
+                Debug.Log($"Wait node {asyncNode.name} GUID; {asyncNode.GUID}");
+
+                await XNodeExtensionsUniTask.WaitAsyncNode(asyncNode);
+            }
+
+            if (_index != Count)
+            {
+                _index = Mathf.Clamp(_index + 1, 0, _nodes.Count - 1);
             }
 
             else
             {
-                OnEnd?.Invoke();
-
-                return null;
+               return null;
             }
 
             return node;
+        }
+
+        private void StopAsyncNodes()
+        {
+            foreach (var item in _asyncNodes)
+            {
+                item.StopTask();
+            }
         }
     }
 }

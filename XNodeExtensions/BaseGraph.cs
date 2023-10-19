@@ -2,13 +2,21 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using SiphoinUnityHelpers.XNodeExtensions.AsyncNodes;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
     [CreateAssetMenu]
     public class BaseGraph : NodeGraph
     {
-        public NodeQueue GetQueue ()
+        private NodeQueue _queue;
+
+        private BaseNode _currentNode;
+
+        
+
+        public void Execute ()
         {
             var queue = new List<BaseNodeInteraction>();
 
@@ -23,7 +31,11 @@ namespace SiphoinUnityHelpers.XNodeExtensions
                 }
             }
 
-            return new NodeQueue(this, queue);
+            _queue = new NodeQueue(this, queue);
+
+            ExecuteProcess().Forget();
+
+
         }
 
         public BaseNode GetNodeByGuid (string guid)
@@ -39,6 +51,22 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             return null;
         }
 
+        private async UniTask ExecuteProcess ()
+        {
 
+            _queue.OnEnd += ReportEnd;
+
+            for (int i = 0; _queue.Count > i; i++)
+            {
+                await _queue.Next();
+            }
+        }
+
+        private void ReportEnd()
+        {
+            _queue.OnEnd -= ReportEnd;
+
+            Debug.Log($"graph {name} end execute");
+        }
     }
 }

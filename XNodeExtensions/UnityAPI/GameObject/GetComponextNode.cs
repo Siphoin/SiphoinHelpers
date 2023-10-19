@@ -8,7 +8,7 @@ using Debug = UnityEngine.Debug;
 namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects
 {
     [NodeWidth(260)]
-    public class TryGetComponextNode : BaseNode
+    public class GetComponextNode : BaseNode
     {
 
         [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private GameObject _gameObject;

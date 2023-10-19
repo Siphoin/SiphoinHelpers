@@ -16,7 +16,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         [Space(10)]
 
-        [SerializeField, Output(ShowBackingValue.Always, dynamicPortList = true), ReadOnly(ReadOnlyMode.OnEditor)] private List<T> _elements;
+        [SerializeField, Output(ShowBackingValue.Always, dynamicPortList = true), ReadOnly(ReadOnlyMode.OnEditor)] private T[] _elements;
 
         [Space(10)]
 
@@ -44,7 +44,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         public void SetValue(IEnumerable<T> value)
         {
-            _elements = value.ToList();
+            _elements = value.ToArray();
         }
 
         public void SetValue(int index, T value)
@@ -56,7 +56,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
         public override void ResetValue()
         {
-            _elements = _startValue.ToList();
+            _elements = _startValue.ToArray();
         }
 #if UNITY_EDITOR
 
