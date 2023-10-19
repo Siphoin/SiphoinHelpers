@@ -1,23 +1,11 @@
 ﻿using UnityEngine;
-using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects
 {
-    public class GetTransformNode : BaseNode
+    public class GetTransformNode : GetDataFromGameObjectNode<Transform>
     {
-        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private GameObject _gameObject;
-
-        [Output(ShowBackingValue.Never), SerializeField] private Transform _output;
-
-        public override object GetValue(NodePort port)
+        protected override Transform GetData(GameObject gameObject)
         {
-            if (!Application.isPlaying)
-            {
-                return base.GetValue(port);
-            }
-
-            var gameObject = GetDataFromPort<GameObject>(nameof(_gameObject));
-
             return gameObject.transform;
         }
     }
