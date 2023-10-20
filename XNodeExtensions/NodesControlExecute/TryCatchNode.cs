@@ -22,9 +22,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 
         public override void Execute()
         {
-
-            ExecuteNodes();
-            
+            ExecuteNodes();            
         }
 
         private void ExecuteNodes()
