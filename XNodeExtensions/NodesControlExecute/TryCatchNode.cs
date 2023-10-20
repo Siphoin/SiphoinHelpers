@@ -50,9 +50,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
                             foreach (var itemOnCatch in GetOutputPort(nameof(_catch)).GetConnections())
                             {
                                 var nodeCatch = itemOnCatch.node as BaseNode;
-
-
-
                                 nodeCatch.Execute();
                             }
                         }
