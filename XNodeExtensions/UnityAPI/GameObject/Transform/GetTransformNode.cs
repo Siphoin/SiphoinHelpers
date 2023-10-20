@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects
+namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects.TransformComponent
 {
     public class GetTransformNode : GetDataFromGameObjectNode<Transform>
     {

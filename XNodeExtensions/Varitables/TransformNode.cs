@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using SiphoinUnityHelpers.Attributes;
+using UnityEngine;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.Varitables
 {

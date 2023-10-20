@@ -9,8 +9,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
         [SerializeField, ReadOnly(ReadOnlyMode.OnEditor)] private string _name;
         public override void Execute()
         {
-            Debug.Log($"Group Calls {_name} started");
-
                 foreach (var item in GetExitPort().GetConnections())
                 {
                     ExecuteNodesFromPort(item);

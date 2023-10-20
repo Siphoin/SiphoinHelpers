@@ -42,38 +42,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects
                 typeString = GetInputValue<string>(nameof(_type));
             }
 
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            Type type = null;
-
-            Stopwatch stopwatch = new Stopwatch();
-
-            stopwatch.Start();
-
-            foreach (Assembly assembly in assemblies)
-            {
-                Type[] types = assembly.GetTypes();
-
-                foreach (Type item in types)
-                {
-                    if (item.Name == typeString)
-                    {
-                        type = item;
-
-                        break;
-                    }
-                }
-
-            }
-
-            stopwatch.Stop();
-
-            if (type is null)
-            {
-
-                throw new NullReferenceException($"type {typeString} not found");
-
-            }
+            Type type = FinderType.Find(typeString);
 
             if (!gameObject.TryGetComponent(type, out _outputComponent))
             {
@@ -82,10 +51,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects
 
             else
             {
-                TimeSpan timeSpan = stopwatch.Elapsed;
-
-                Debug.Log($"elapsed milliseconds finding type {timeSpan.Milliseconds} ms");
-
                 return _outputComponent;
             }
 

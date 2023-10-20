@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine;
+using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
@@ -13,6 +13,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             OnExit?.Invoke(this, new ExitEventArgs());
         }
 
-        
+
     }
 }

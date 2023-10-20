@@ -113,11 +113,8 @@ namespace SiphoinUnityHelpers.XNodeExtensions
                     if (exitPort.Connection != null)
                     {
                         var nextNodeBeforeItem = exitPort.Connection.node as BaseNodeInteraction;
-
-                        if (nextNodeBeforeItem.Enabled)
-                        {
                             _nodes.Add(nextNodeBeforeItem);
-                        }
+                        
                     }
                     
                 }

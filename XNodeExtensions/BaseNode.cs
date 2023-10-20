@@ -58,6 +58,11 @@ namespace SiphoinUnityHelpers.XNodeExtensions
                 return Convert.ChangeType(value, type);
 
         }
+
+        public override object GetValue(NodePort port)
+        {
+            return null;
+        }
 #if UNITY_EDITOR
         protected string GetDefaultName()
         {

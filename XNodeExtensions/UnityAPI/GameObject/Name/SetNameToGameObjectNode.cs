@@ -4,7 +4,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects.Name
 {
     public class SetNameToGameObjectNode : SetDataToGameObjectNode
     {
-        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private string _name;
+        [Input(connectionType = ConnectionType.Override), SerializeField] private string _name;
         public override void SetData(GameObject gameObject)
         {
             string name = _name;

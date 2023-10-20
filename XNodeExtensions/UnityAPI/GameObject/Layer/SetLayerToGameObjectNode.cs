@@ -4,7 +4,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects.Layer
 {
     public class SetLayerToGameObjectNode : SetDataToGameObjectNode
     {
-        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private int _layer;
+        [Input(connectionType = ConnectionType.Override), SerializeField] private int _layer;
         public override void SetData(GameObject gameObject)
         {
             int layer = _layer;

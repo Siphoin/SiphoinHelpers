@@ -4,7 +4,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.GameObjects.Tag
 {
     public class SetTagForGameObject : SetDataToGameObjectNode
     {
-        [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private string _tag;
+        [Input(connectionType = ConnectionType.Override), SerializeField] private string _tag;
         public override void SetData(GameObject gameObject)
         {
             string tag = _tag;

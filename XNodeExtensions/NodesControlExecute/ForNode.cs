@@ -12,7 +12,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 
         [Input, SerializeField] private int _startValue;
 
-        [SerializeField] private ComputeType _computeType = ComputeType.Lesser;
+        [SerializeField] private ComputeType _computeType = ComputeType.Equals;
 
         [SerializeField] private ArifmeticType _arifmeticType = ArifmeticType.Increment;
 
@@ -40,6 +40,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
             {
                 startValue = (int)startValuePort.Connection.GetOutputValue();
             }
+
             switch (_computeType)
             {
                 case ComputeType.Equals:
