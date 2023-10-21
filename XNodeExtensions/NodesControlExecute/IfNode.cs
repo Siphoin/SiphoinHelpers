@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
@@ -34,5 +35,36 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
                 }
             }
         }
+
+        public bool NodeContainsOnBranch (BaseNodeInteraction node)
+        {
+            var portTrue = GetOutputPort(nameof(_true));
+
+            var portFalse = GetOutputPort(nameof(_false));
+
+
+            var connectionsOnTruePort = portTrue.GetConnections();
+
+            var connectionsOnFalsePort = portFalse.GetConnections();
+
+            if (connectionsOnTruePort != null && connectionsOnFalsePort is null)
+            {
+                return connectionsOnTruePort.Contains(node.GetEnterPort());
+            }
+
+            else if (connectionsOnFalsePort != null && connectionsOnTruePort is null)
+            {
+                return connectionsOnFalsePort.Contains(node.GetEnterPort());
+            }
+
+            else if (connectionsOnFalsePort != null && connectionsOnTruePort != null)
+            {
+                return connectionsOnFalsePort.Contains(node.GetEnterPort()) || connectionsOnTruePort.Contains(node.GetEnterPort());
+            }
+
+            return false;
+
+
+        }
+        }
     }
-}

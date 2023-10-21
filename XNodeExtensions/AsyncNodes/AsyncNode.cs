@@ -2,7 +2,7 @@
 namespace SiphoinUnityHelpers.XNodeExtensions.AsyncNodes
 {
     [NodeTint("#5c572b")]
-    public abstract class AsyncNode : NodeControlExecute
+    public abstract class AsyncNode : BaseNodeInteraction
     {
 
         private CancellationTokenSource _tokenSource;

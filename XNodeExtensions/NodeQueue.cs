@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
@@ -106,18 +107,17 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             foreach (var item in nodes)
             {
-                if (item.Enabled)
-                {
                     var exitPort = item.GetExitPort();
 
                     if (exitPort.Connection != null)
                     {
                         var nextNodeBeforeItem = exitPort.Connection.node as BaseNodeInteraction;
+
                             _nodes.Add(nextNodeBeforeItem);
                         
                     }
                     
-                }
+                
             }
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -156,25 +156,33 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             var node = _nodes[currentIndex];
 
-            node.Execute();
 
-            if (node is AsyncNode)
+
+            if (node.Enabled)
             {
-                var asyncNode = node as AsyncNode;
+                node.Execute();
 
-                Debug.Log($"Wait node {asyncNode.name} GUID; {asyncNode.GUID}");
+                if (node is AsyncNode)
+                {
+                    var asyncNode = node as AsyncNode;
 
-                await XNodeExtensionsUniTask.WaitAsyncNode(asyncNode);
-            }
+                    Debug.Log($"Wait node {asyncNode.name} GUID; {asyncNode.GUID}");
 
-            if (_index != Count)
-            {
-                _index = Mathf.Clamp(_index + 1, 0, _nodes.Count - 1);
-            }
+                    await XNodeExtensionsUniTask.WaitAsyncNode(asyncNode);
+                }
 
-            else
-            {
-               return null;
+
+
+                if (_index != Count)
+                {
+                    _index = Mathf.Clamp(_index + 1, 0, _nodes.Count - 1);
+                }
+
+                else
+                {
+                    return null;
+                }
+
             }
 
             return node;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using XNode;
 using SiphoinUnityHelpers.Attributes;
-using SiphoinUnityHelpers.Extensions;
+using SiphoinUnityHelpers.XNodeExtensions.Extensions;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

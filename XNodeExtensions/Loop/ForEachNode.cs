@@ -3,13 +3,11 @@ using System.Collections;
 using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
+namespace SiphoinUnityHelpers.XNodeExtensions.Loop
 {
-    public class ForEachNode : NodeControlExecute
+    public class ForEachNode : LoopNode
     {
         [Input(ShowBackingValue.Never, ConnectionType.Override), SerializeField] private NodePortEnumerable _enumerable;
-
-        [Output(ShowBackingValue.Never), SerializeField] private NodePort _operations;
 
         [Space(10)]
 
@@ -30,20 +28,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
             {
                 _currentElement = item;
 
-                var operations = GetOutputPort(nameof(_operations)).GetConnections();
-
-                if (operations != null)
-                {
-                    foreach (var itemNode in operations)
-                    {
-                        ExecuteNodesFromPort(itemNode);
-                    }
-                }
-
-               
-
-
-
+                CallLoop();
             }
         }
     }

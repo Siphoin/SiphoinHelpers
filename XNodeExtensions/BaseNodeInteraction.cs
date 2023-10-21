@@ -33,11 +33,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             base.OnCreateConnection(from, to);
 
             SetEnable(Exit.Connection != null || Enter.Connection != null);
-
-            if (Enter.Connection != null && Enter.Connection.node is NodeControlExecute)
-            {
-                SetEnable(false);
-            }
         }
 
         public override void OnRemoveConnection(NodePort port)

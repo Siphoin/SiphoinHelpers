@@ -1,9 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using SiphoinUnityHelpers.XNodeExtensions.AsyncNodes;
-using System;
+using SiphoinUnityHelpers.XNodeExtensions.Interfaces;
 using UnityEngine;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
+namespace SiphoinUnityHelpers.XNodeExtensions.Loop
 {
     [NodeTint("#593d6b")]
     public class WhileNode : AsyncNode
@@ -19,21 +19,14 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 
         private async UniTask While ()
         {
+            base.Execute();
+
             while (true)
             {
-                StopTask();
-
-                base.Execute();
-
                 bool condition = GetDataFromPort<bool>(nameof(_condition));
 
                 if (condition)
                 {
-                    foreach (var item in GetExitPort().GetConnections())
-                    {
-                        ExecuteNodesFromPort(item);
-                    }
-
                     StopTask();
 
                     break;

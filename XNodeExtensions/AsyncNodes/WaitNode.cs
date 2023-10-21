@@ -22,11 +22,6 @@ namespace SiphoinUnityHelpers.XNodeExtensions.AsyncNodes
 
             await UniTask.Delay(timeSpan);
 
-            foreach (var item in GetExitPort().GetConnections())
-            {
-                ExecuteNodesFromPort(item);
-            }
-
             StopTask();
 
 

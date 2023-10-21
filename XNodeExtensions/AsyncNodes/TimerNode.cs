@@ -1,18 +1,25 @@
 ﻿using Cysharp.Threading.Tasks;
+using SiphoinUnityHelpers.XNodeExtensions.Interfaces;
 using System;
+using System.Threading;
 using UnityEngine;
 using XNode;
 
 namespace SiphoinUnityHelpers.XNodeExtensions.AsyncNodes
 {
     [NodeTint("#5c2b3f")]
-    public class TimerNode : AsyncNodeWithSeconds
+    public class TimerNode : AsyncNodeWithSeconds, ILoopNode
     {
         [Input(connectionType = ConnectionType.Override), SerializeField] private bool _tickOnStart = true;
 
         [SerializeField] private TimerType _type;
 
+        [Output, SerializeField] private TimeOutPort _timeOut;
+
         [Output, SerializeField] private TimerNode _someTimer;
+
+        private CancellationTokenSource _cancellationTokenSource;
+
 
         public override object GetValue(NodePort port)
         {
@@ -60,22 +67,31 @@ namespace SiphoinUnityHelpers.XNodeExtensions.AsyncNodes
 
         private void ExecuteInTimer()
         {
-            foreach (var item in GetExitPort().GetConnections())
+            var timeOutPort = GetOutputPort(nameof(_timeOut));
+
+            var connections = timeOutPort.GetConnections();
+
+            if (connections != null)
             {
-                ExecuteNodesFromPort(item);
+                foreach (var connection in connections)
+                {
+                    var node = connection.node as BaseNodeInteraction;
+
+                    node.Execute();
+                }
             }
         }
 
         public void Stop ()
         {
-            StopTask();
+            _cancellationTokenSource?.Cancel();
         }
 
         public void Start ()
         {
             Stop();
 
-            base.Execute();
+            _cancellationTokenSource = new CancellationTokenSource();
 
             float seconds = GetSeconds();
 
@@ -86,7 +102,21 @@ namespace SiphoinUnityHelpers.XNodeExtensions.AsyncNodes
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
 
-            await UniTask.Delay(timeSpan, cancellationToken: TokenSource.Token);
+            await UniTask.Delay(timeSpan, cancellationToken: _cancellationTokenSource.Token);
+        }
+
+        public bool NodeContainsOnLoop(BaseNodeInteraction node)
+        {
+            var port = GetOutputPort(nameof(_timeOut));
+
+            if (port.ConnectionCount > 0)
+            {
+                var connections = port.GetConnections();
+
+                return connections.Contains(node.GetEnterPort());
+            }
+
+            return false;
         }
     }
 }

@@ -3,10 +3,10 @@ using SiphoinUnityHelpers.XNodeExtensions.Math.Arifmetic;
 using UnityEngine;
 using XNode;
 
-namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
+namespace SiphoinUnityHelpers.XNodeExtensions.Loop
 {
     [NodeWidth(250)]
-    public class ForNode : NodeControlExecute
+    public class ForNode : LoopNode
     {
         [Input, SerializeField] private int _n = 2;
 
@@ -261,10 +261,7 @@ namespace SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes
 
         private void ExecutesNodesInFor()
         {
-            foreach (var item in GetExitPort().GetConnections())
-            {
-                ExecuteNodesFromPort(item);
-            }
+            CallLoop();
         }
 
         public override object GetValue(NodePort port)

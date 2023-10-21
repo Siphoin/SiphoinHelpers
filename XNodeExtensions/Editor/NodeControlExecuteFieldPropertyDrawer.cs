@@ -1,8 +1,11 @@
 using SiphoinUnityHelpers.XNodeExtensions;
 using SiphoinUnityHelpers.XNodeExtensions.Attributes;
-using System.Text;
+using SiphoinUnityHelpers.XNodeExtensions.Interfaces;
+using SiphoinUnityHelpers.XNodeExtensions.Loop;
+using SiphoinUnityHelpers.XNodeExtensions.NodesControlExecutes;
 using UnityEditor;
 using UnityEngine;
+using XNode;
 using XNodeEditor;
 
 [CustomPropertyDrawer(typeof(NodeControlExecuteFieldAttribute))]
@@ -14,36 +17,54 @@ public class NodeControlExecuteFieldPropertyDrawer : PropertyDrawer
 
         var node = property.serializedObject.targetObject as BaseNodeInteraction;
 
-
-
          if (node.Enter.Connection != null)
          {
             var connectedNode = node.Enter.Connection.node;
 
-            if (connectedNode is NodeControlExecute)
+            if (connectedNode is ILoopNode)
             {
-                var executeControlNode = connectedNode as NodeControlExecute;
-                GUIStyle style = new GUIStyle(EditorStyles.boldLabel);
+                var loopNode = connectedNode as ILoopNode;
 
-                style.fontSize = 10;
+                if (loopNode.NodeContainsOnLoop(node))
+                {
+                    DrawLabel(position, label, node, connectedNode);
 
-                EditorGUILayout.LabelField(label.text, $"Control by {NodeEditorUtilities.NodeDefaultName(connectedNode.GetType())}", style);
+                    return;
+                }
+                
+            }
 
-                Rect positionGuid = position;
+            if (connectedNode is IfNode)
+            {
+                var ifNode = connectedNode as IfNode;
 
-                positionGuid.y += 20;
+                if (ifNode.NodeContainsOnBranch(node))
+                {
+                    DrawLabel(position, label, node, connectedNode);
 
-                style.fontSize = 9;
+                    return;
+                }
 
-                node.SetEnable(false);
-
-                EditorGUILayout.LabelField(string.Empty, executeControlNode.GUID, style);
-
-                return;
             }
         }
         EditorGUI.PropertyField(position, property, label);
     }
 
-   
+    private static void DrawLabel(Rect position, GUIContent label, BaseNodeInteraction node, Node connectedNode)
+    {
+        GUIStyle style = new GUIStyle(EditorStyles.boldLabel);
+
+        style.fontSize = 10;
+
+        EditorGUILayout.LabelField(label.text, $"Control by {NodeEditorUtilities.NodeDefaultName(connectedNode.GetType())}", style);
+
+        Rect positionGuid = position;
+
+        positionGuid.y += 20;
+
+        style.fontSize = 9;
+
+        node.SetEnable(false);
+    }
+
 }

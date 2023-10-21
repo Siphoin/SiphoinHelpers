@@ -6,21 +6,22 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI
 {
     public class LoadSceneNode : BaseNodeInteraction
     {
-        [SerializeField, SceneField] private string _sceneName;
+        [SerializeField, SceneField] private string _scene;
+
+        [SerializeField] private LoadSceneMode _mode;
 
         [SerializeField] private bool _isAsync;
 
         public override void Execute()
         {
-
             if (_isAsync)
             {
-                SceneManager.LoadSceneAsync(_sceneName);
+                SceneManager.LoadSceneAsync(_scene, _mode);
             }
 
             else
             {
-                SceneManager.LoadScene(_sceneName);
+                SceneManager.LoadScene(_scene, _mode);
             }
         }
     }
