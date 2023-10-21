@@ -34,8 +34,12 @@ namespace SiphoinUnityHelpers.XNodeExtensions.UnityAPI.PlayerPrefsSystem
                     return Convert.ToUInt32(_value);
                     case FieldType.ULong: 
                     return Convert.ToUInt64(_value);
-                    case FieldType.Bool: 
-                    return Convert.ToBoolean(_value);
+                    case FieldType.Bool:
+
+                    string validValue = _value.Replace(".", ",");
+
+                    return Convert.ToBoolean(validValue);
+
                     default:
                     return new InvalidCastException($"invalid field type {_type} on node {GUID}");
 

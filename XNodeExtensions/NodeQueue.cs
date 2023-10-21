@@ -54,16 +54,16 @@ namespace SiphoinUnityHelpers.XNodeExtensions
 
             _graph = parentGraph;
 
-            RequireNodes(nodes);
+            ValidateGraph(nodes);
 
             Build(nodes);
         }
 
-        private void RequireNodes(IEnumerable<BaseNodeInteraction> nodes)
+        private void ValidateGraph(IEnumerable<BaseNodeInteraction> nodes)
         {
-            Func<BaseNodeInteraction, bool> predicateFindStartNode = x => x is StartNode;
+            Func<BaseNodeInteraction, bool> predicateFindStartNode = x => x is StartNode && x.Enabled && x.GetEnterPort().Connection != null;
 
-            Func<BaseNodeInteraction, bool> predicateFindExitNode = x => x is ExitNode;
+            Func<BaseNodeInteraction, bool> predicateFindExitNode = x => x is ExitNode && x.Enabled && x.GetEnterPort().Connection != null;
 
             if (nodes.Count(predicateFindExitNode) == 0)
             {
@@ -105,19 +105,26 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             }
             _nodes.Add(_startNode);
 
-            foreach (var item in nodes)
+            var currentNode = _startNode as BaseNodeInteraction;
+
+            while (currentNode != null)
             {
-                    var exitPort = item.GetExitPort();
+                var exitPort = currentNode.GetExitPort();
 
-                    if (exitPort.Connection != null)
+                if (exitPort.Connection != null)
+                {
+                    var nextNode = exitPort.Connection.node as BaseNodeInteraction;
+                    if (nextNode.Enabled)
                     {
-                        var nextNodeBeforeItem = exitPort.Connection.node as BaseNodeInteraction;
-
-                            _nodes.Add(nextNodeBeforeItem);
-                        
+                        _nodes.Add(nextNode);
                     }
-                    
-                
+
+                    currentNode = nextNode;
+                }
+                else
+                {
+                    currentNode = null;
+                }
             }
 
             StringBuilder stringBuilder = new StringBuilder();

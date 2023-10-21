@@ -3,22 +3,28 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using SiphoinUnityHelpers.XNodeExtensions.AsyncNodes;
+using System;
+using System.Threading;
 
 namespace SiphoinUnityHelpers.XNodeExtensions
 {
-    [CreateAssetMenu]
-    public class BaseGraph : NodeGraph
+    public abstract class BaseGraph : NodeGraph
     {
+        public bool IsPaused { get; private set; }
+
         private NodeQueue _queue;
 
-        private BaseNode _currentNode;
+        private CancellationTokenSource _cancellationTokenSource;
 
-        
+        public event Action OnEndExecute;
+
+        public event Action<BaseNode> OnNextNode;
 
         public void Execute ()
         {
             var queue = new List<BaseNodeInteraction>();
+
+            _cancellationTokenSource = new CancellationTokenSource();
 
 
             for (int i = 0; nodes.Count > i; i++)
@@ -34,6 +40,28 @@ namespace SiphoinUnityHelpers.XNodeExtensions
             _queue = new NodeQueue(this, queue);
 
             ExecuteProcess().Forget();
+
+        }
+
+        public void Continue ()
+        {
+            IsPaused = true;
+        }
+
+        public void Pause ()
+        {
+            IsPaused = false;
+        }
+
+        public void Stop ()
+        {
+            _cancellationTokenSource.Cancel();
+
+            _queue = null;
+
+            _cancellationTokenSource = null;
+
+            End();
 
 
         }
@@ -54,17 +82,23 @@ namespace SiphoinUnityHelpers.XNodeExtensions
         private async UniTask ExecuteProcess ()
         {
 
-            _queue.OnEnd += ReportEnd;
+            _queue.OnEnd += End;
 
             for (int i = 0; _queue.Count > i; i++)
             {
-                await _queue.Next();
+               await UniTask.WaitUntil(() => !IsPaused, cancellationToken: _cancellationTokenSource.Token);
+
+               var node = await _queue.Next();
+
+                OnNextNode?.Invoke(node);
             }
         }
 
-        private void ReportEnd()
+        private void End()
         {
-            _queue.OnEnd -= ReportEnd;
+            _queue.OnEnd -= End;
+
+            OnEndExecute?.Invoke();
 
             Debug.Log($"graph {name} end execute");
         }
