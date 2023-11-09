@@ -8,7 +8,7 @@ namespace SiphoinUnityHelpers.Extensions
     {
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> collection)
         {
-            Random random = new Random();
+            System.Random random = new System.Random();
 
             return collection.OrderBy(x => random.Next());
         }
@@ -16,7 +16,7 @@ namespace SiphoinUnityHelpers.Extensions
         public static T GetRandomElement<T>(this IEnumerable<T> source)
         {
             List<T> elements = source.ToList();
-            int randomIndex = Random.Range(0, elements.Count);
+            int randomIndex = UnityEngine.Random.Range(0, elements.Count);
             return elements[randomIndex];
         }
     }
