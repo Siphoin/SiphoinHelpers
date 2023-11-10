@@ -15,9 +15,7 @@ namespace SiphoinUnityHelpers.Extensions
 
         public static T GetRandomElement<T>(this IEnumerable<T> source)
         {
-            List<T> elements = source.ToList();
-            int randomIndex = UnityEngine.Random.Range(0, elements.Count);
-            return elements[randomIndex];
+            return source.ElementAt(UnityEngine.Random.Range(0, source.Count()));
         }
     }
     }
