@@ -9,13 +9,13 @@ namespace SiphoinUnityHelpers
 {
     public class MonoBehaviourIdentity : MonoBehaviour
     {
-         [SerializeField, ReadOnly(ReadOnlyMode.OnPlayMode)] private string _guid;
+         [SerializeField, ReadOnly(ReadOnlyMode.OnPlayMode)] private string _guidObject;
 
-        public string GUID => _guid;
+        public string GUID => _guidObject;
 
         public void SetGuid()
         {
-            _guid = Guid.NewGuid().ToString();
+            _guidObject = Guid.NewGuid().ToString();
         }
 
         public void SetGuid(string guid)
@@ -25,7 +25,7 @@ namespace SiphoinUnityHelpers
                 return;
             }
 
-            _guid = guid;
+            _guidObject = guid;
         }
 
 #if UNITY_EDITOR
@@ -54,7 +54,7 @@ namespace SiphoinUnityHelpers
 
             else if (prefabType != PrefabType.PrefabInstance)
             {
-                _guid = string.Empty;
+                _guidObject = string.Empty;
             }
         }
 
