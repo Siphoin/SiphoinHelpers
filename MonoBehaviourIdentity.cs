@@ -47,7 +47,7 @@ namespace SiphoinUnityHelpers
                 return;
             }
 
-            if (prefabType == PrefabType.PrefabInstance && string.IsNullOrEmpty(_guid))
+            if (prefabType == PrefabType.PrefabInstance && string.IsNullOrEmpty(_guidObject))
             {
                 SetGuid();
             }
