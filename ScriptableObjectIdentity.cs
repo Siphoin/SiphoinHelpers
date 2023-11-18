@@ -5,8 +5,8 @@ namespace SiphoinUnityHelpers
 {
     public class ScriptableObjectIdentity : ScriptableObject
     {
-        [SerializeField] private string _guid = Guid.NewGuid().ToString();
+        [SerializeField] private string _guidObject = Guid.NewGuid().ToString();
 
-        public string GUID => _guid;
+        public string GUID => _guidObject;
     }
 }
